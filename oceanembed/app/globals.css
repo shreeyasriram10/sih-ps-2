@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+/* ========================================================
+   AQUALENS — Ultra-Premium Light Blue Ocean Visual System
+   ======================================================== */
+:root {
+  --ocean-bg:          #e0f2fe;
+  --ocean-deep:        #bae6fd;
+  --ocean-surface:     #ffffff;
+  --ocean-panel:       rgba(255, 255, 255, 0.82);
+  --ocean-panel-dark:  rgba(240, 249, 255, 0.9);
+  --ocean-border:      rgba(14, 116, 163, 0.18);
+  --ocean-border-s:    rgba(14, 116, 163, 0.35);
+
+  /* Premium Ocean Palette */
+  --cyan:    #06b6d4;
+  --teal:    #0d9488;
+  --sky:     #0284c7;
+  --violet:  #7c3aed;
+  --purple:  #9333ea;
+  --fuchsia: #c026d3;
+  --orange:  #ea580c;
+  --amber:   #d97706;
+  --green:   #16a34a;
+  --red:     #dc2626;
+
+  --sidebar-w: 230px;
+  --font-inter: 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(ellipse 90% 60% at 20% 0%, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+  color: #0c4a6e;
+  font-family: var(--font-inter);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #e0f2fe; }
+::-webkit-scrollbar-thumb { background: rgba(14, 116, 163, 0.35); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(14, 116, 163, 0.6); }
+
+/* ─── LAYOUT SHELL ─── */
+.layout-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  padding-top: 0;
+}
+@media (max-width: 1024px) {
+  .main-content { margin-left: 0; padding-top: 56px; }
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: var(--sidebar-w);
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.92);
+  border-right: 1px solid rgba(14, 116, 163, 0.18);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  overflow-y: auto;
+  box-shadow: 4px 0 35px rgba(14, 116, 163, 0.08);
+}
+
+/* ─── UNIFIED LIGHT GLASS PANELS ─── */
+.glass, .glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(14, 116, 163, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 4px 25px rgba(14, 116, 163, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-strong, .glass-panel-strong {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(14, 116, 163, 0.28);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(14, 116, 163, 0.12);
+}
+
+/* ─── GRADIENT CARDS ─── */
+.card-cyan    { background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(14,165,233,0.05)); border: 1px solid rgba(6,182,212,0.25); }
+.card-violet  { background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(139,92,246,0.05)); border: 1px solid rgba(124,58,237,0.22); }
+.card-orange  { background: linear-gradient(135deg, rgba(234,88,12,0.1), rgba(249,115,22,0.05)); border: 1px solid rgba(234,88,12,0.22); }
+.card-green   { background: linear-gradient(135deg, rgba(22,163,74,0.1), rgba(34,197,94,0.05)); border: 1px solid rgba(22,163,74,0.22); }
+.card-fuchsia { background: linear-gradient(135deg, rgba(192,38,211,0.1), rgba(217,70,239,0.05)); border: 1px solid rgba(192,38,211,0.22); }
+.card-amber   { background: linear-gradient(135deg, rgba(217,119,6,0.1), rgba(245,158,11,0.05)); border: 1px solid rgba(217,119,6,0.22); }
+
+/* ─── GLOW EFFECTS ─── */
+.glow-cyan    { box-shadow: 0 0 30px rgba(6,182,212,0.22), 0 0 60px rgba(6,182,212,0.1); }
+.glow-violet  { box-shadow: 0 0 30px rgba(124,58,237,0.22), 0 0 60px rgba(124,58,237,0.1); }
+.glow-orange  { box-shadow: 0 0 30px rgba(234,88,12,0.22); }
+
+/* ─── ANIMATED OCEAN GRADIENT BACKGROUND ─── */
+.ocean-gradient {
+  background:
+    radial-gradient(ellipse 90% 60% at 20% 10%, rgba(56,189,248,0.2) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 70% at 80% 80%, rgba(14,116,163,0.12) 0%, transparent 70%),
+    linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+}
+
+/* ─── GRID BACKGROUND ─── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(14,116,163,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14,116,163,0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── STATUS DOTS ─── */
+.status-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-dot.green  { background: #16a34a; box-shadow: 0 0 8px rgba(22,163,74,0.6); animation: pulse-dot 2s infinite; }
+.status-dot.cyan   { background: #0284c7; box-shadow: 0 0 8px rgba(2,132,199,0.6); animation: pulse-dot 2s infinite; }
+.status-dot.amber  { background: #d97706; box-shadow: 0 0 8px rgba(217,119,6,0.6); animation: pulse-dot 3s infinite; }
+.status-dot.violet { background: #7c3aed; box-shadow: 0 0 8px rgba(124,58,237,0.6); animation: pulse-dot 2.5s infinite; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* ─── DEMO BANNER ─── */
+.demo-banner {
+  background: rgba(217,119,6,0.1);
+  border: 1px solid rgba(217,119,6,0.25);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #b45309;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* ─── SECTION LABEL ─── */
+.section-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0284c7;
+  display: block;
+}
+
+/* ─── METRIC VALUE ─── */
+.metric-value {
+  font-size: 2.2rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  color: #0c4a6e;
+}
+
+.metric-unit {
+  font-size: 0.85rem;
+  color: #0284c7;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+/* ─── GRADIENT TEXT ─── */
+.gradient-text-cyan    { background: linear-gradient(135deg, #0284c7, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.gradient-text-violet  { background: linear-gradient(135deg, #7c3aed, #c026d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.gradient-text-orange  { background: linear-gradient(135deg, #ea580c, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.gradient-text-hero    { background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 40%, #0891b2 70%, #7c3aed 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* ─── ANIMATED BORDER ─── */
+@keyframes border-spin {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animated-border {
+  background: linear-gradient(270deg, #0284c7, #7c3aed, #ea580c, #16a34a, #0284c7);
+  background-size: 400% 400%;
+  animation: border-spin 6s ease infinite;
+  border-radius: 16px;
+  padding: 1px;
+}
+.animated-border-inner {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 15px;
+}
+
+/* ─── PIPELINE STEP ─── */
+.pipeline-step {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(14,116,163,0.18);
+  background: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s;
+}
+.pipeline-step.active {
+  border-color: rgba(2,132,199,0.6);
+  background: rgba(2,132,199,0.1);
+  box-shadow: 0 0 25px rgba(2,132,199,0.15);
+}
+.pipeline-step.complete {
+  border-color: rgba(22,163,74,0.45);
+  background: rgba(22,163,74,0.08);
+}
+
+/* ─── INPUT RANGE ─── */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  height: 6px;
+  background: linear-gradient(90deg, rgba(2,132,199,0.25), rgba(124,58,237,0.25));
+  border-radius: 3px; outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #7c3aed);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(2,132,199,0.5);
+}
+
+/* ─── INFERENCE BAR ─── */
+.inference-bar {
+  height: 3px;
+  background: linear-gradient(90deg, #0284c7, #7c3aed, #ea580c);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fade-in-up 0.5s ease-out forwards; }
+
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50%      { transform: translateY(-8px); }
+}
+.float { animation: float 4s ease-in-out infinite; }
+
+/* ─── BUTTONS ─── */
+.btn-primary {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  border: 1px solid rgba(2,132,199,0.3);
+  color: white;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(2,132,199,0.25);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0369a1, #1d4ed8);
+  box-shadow: 0 6px 30px rgba(2,132,199,0.35);
+  transform: translateY(-1px);
+}
+
+/* ─── RECHARTS TOOLTIP ─── */
+.recharts-default-tooltip {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid rgba(14,116,163,0.25) !important;
+  border-radius: 14px !important;
+  color: #0c4a6e !important;
+  font-size: 11px !important;
+  box-shadow: 0 10px 30px rgba(14,116,163,0.15) !important;
+}
+
+/* ─── LEAFLET OVERRIDES FOR LIGHT BLUE THEME ─── */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  font-family: var(--font-inter) !important;
+  background: #cad2d3 !important;
+}
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(14px) !important;
+  color: #0c4a6e !important;
+  border: 1px solid rgba(14, 116, 163, 0.22) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 10px 30px rgba(14, 116, 163, 0.18) !important;
+}
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.96) !important;
+}
