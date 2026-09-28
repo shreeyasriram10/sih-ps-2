@@ -1,0 +1,18 @@
+# Phase 1 (data pipeline). Python 3.12.10, Windows 11. Exact versions used.
+# Install: python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt
+copernicusmarine==2.4.1
+xarray==2025.9.0
+netCDF4==1.7.4
+h5netcdf==1.8.1
+zarr==3.4.0
+dask==2026.8.0
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.6
+matplotlib==3.11.2
+PyYAML==6.0.3
+argopy==1.4.0
+erddapy==3.2.1      # argopy 1.4.0 breaks with erddapy 3.3.x (removed private helper)
+truststore==0.10.4  # erddap.ifremer.fr omits its intermediate cert; verify via the OS trust store
+pytest==9.1.1
+# Phase 2+ (added when needed): torch (CPU), scikit-learn, lightgbm

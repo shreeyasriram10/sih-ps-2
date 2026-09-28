@@ -1,0 +1,108 @@
+# OceanEmbed ML config (single source of truth; every script takes --config).
+# Dataset IDs/versions were pinned from the CMEMS catalogue (copernicusmarine describe) on 2026-09-28.
+
+seed: 42
+
+domain:
+  name: arabian_sea            # pilot; full NIO later: lat [5, 30], lon [45, 105]
+  lat: [5.0, 25.0]             # cell EDGES of the 0.25 deg target grid
+  lon: [45.0, 78.0]
+  download_pad_deg: 0.25       # raw box is padded so conservative regridding covers edge cells
+
+grid:
+  res_deg: 0.25
+
+split:                         # temporal split by calendar year; never spatial
+  years:
+    train: [2017, 2018]        # inclusive ranges
+    val: [2019, 2019]          # note: 2019 was a strong positive-IOD year
+    test: [2020, 2020]
+  guard_days: 30               # last 30 days of the train period are dropped (persistence leakage)
+
+depth:
+  max_native_m: 1100           # keep GLORYS native levels <= this (deepest kept ~1062 m)
+  standard_levels: [0, 5, 10, 20, 30, 50, 75, 100, 125, 150, 200, 300, 500, 700, 1000]
+
+products:
+  glorys:
+    product_id: GLOBAL_MULTIYEAR_PHY_001_030
+    dataset_id: cmems_mod_glo_phy_my_0.083deg_P1D-m
+    dataset_version: "202311"
+    variables: [thetao]
+    depth: [0.0, 1100.0]
+  sst:
+    product_id: SST_GLO_SST_L4_REP_OBSERVATIONS_010_011
+    dataset_id: METOFFICE-GLO-SST-L4-REP-OBS-SST
+    dataset_version: "202003"
+    variables: [analysed_sst]
+    convert: {analysed_sst: K_to_C}
+  sss:
+    product_id: MULTIOBS_GLO_PHY_S_SURFACE_MYNRT_015_013
+    dataset_id: cmems_obs-mob_glo_phy-sss_my_multi_P1D
+    dataset_version: "202311"
+    variables: [sos]
+    note: "L4 OI of SMOS+SMAP+in-situ (incl. Argo) salinity; not purely satellite"
+  sla:
+    product_id: SEALEVEL_GLO_PHY_L4_MY_008_047
+    dataset_id: cmems_obs-sl_glo_phy-ssh_my_allsat-l4-duacs-0.125deg_P1D
+    dataset_version: "202411"
+    variables: [sla]
+  cur:
+    product_id: MULTIOBS_GLO_PHY_MYNRT_015_003
+    dataset_id: cmems_obs-mob_glo_phy-cur_my_0.25deg_P1D-m
+    dataset_version: "202411"
+    variables: [uo, vo]
+    depth: [0.0, 1.0]
+    note: "geostrophic (from altimetry) + Ekman (from ERA5 wind); largely derived from sla and winds"
+  wind:
+    product_id: WIND_GLO_PHY_L4_MY_012_006
+    dataset_id: cmems_obs-wind_glo_phy_my_l4_0.125deg_PT1H   # the 0.25 deg dataset ends 2009-10
+    dataset_version: "202211"
+    variables: [eastward_wind, northward_wind]
+    aggregate: hourly_to_daily
+    min_hours: 20
+
+inputs:                        # model input channels -> (product, variable)
+  sst: {product: sst, variable: analysed_sst}
+  sss: {product: sss, variable: sos}
+  sla: {product: sla, variable: sla}
+  cur_u: {product: cur, variable: uo}
+  cur_v: {product: cur, variable: vo}
+  wind_u: {product: wind, variable: eastward_wind}
+  wind_v: {product: wind, variable: northward_wind}
+
+regions:                       # evaluation sub-regions (edges, deg)
+  west_AS: {lat: [5.0, 25.0], lon: [45.0, 60.0]}
+  central_AS: {lat: [5.0, 25.0], lon: [60.0, 70.0]}
+  east_AS: {lat: [5.0, 25.0], lon: [70.0, 78.0]}
+
+build:
+  min_coverage: 0.5            # output cell needs >= 50% valid source area
+  time_chunk: 8
+
+argo:
+  source: erddap               # argopy data source (erddap | gdac)
+  mode: standard               # adjusted values, good QC only
+  parallel: true
+  max_pres_dbar: 1100
+  surface_extrapolate_max_m: 10
+  min_valid_std_levels: 5
+  max_gap_rules: [[200, 50], [500, 100], [1100, 200]]   # [up to depth m, max bracket span m]
+
+sanity:
+  map_depths: [0, 100, 200, 500, 1000]
+  inversion_max_depth_m: 300
+  inversion_thresholds_c: [0.05, 0.1, 0.2, 0.5]
+  plausible_range:
+    sst: [15, 35]
+    sss: [30, 41]
+    sla: [-1, 1]
+    cur_u: [-3, 3]
+    cur_v: [-3, 3]
+    wind_u: [-40, 40]
+    wind_v: [-40, 40]
+
+paths:                         # relative to ml/
+  raw: data/raw
+  processed: data/processed
+  outputs: outputs
